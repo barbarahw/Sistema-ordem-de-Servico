@@ -146,17 +146,17 @@ public class TelaCadastro extends javax.swing.JFrame {
         json.put("nome", nome);
         json.put("usuario", usuario);
         json.put("senha", senha);
-        json.put("token", "comum");
+        json.put("perfil", "comum");
         
         enviarJson(json);
         JSONObject respostaJson = receberJson();
         
         if (respostaJson.getString("status").equals("sucesso")){
-            JOptionPane.showMessageDialog(this, "Login bem sucedido", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            String token = respostaJson.getString("token");
+            JOptionPane.showMessageDialog(this, "Cadastro bem sucedido", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            TelaInicial telaInicial = new TelaInicial(socket, output, input);
+            telaInicial.setVisible(true);
+            this.setVisible(false);
             String perfil = respostaJson.getString("perfil");
-            MenuCliente menuInicial = new MenuCliente(socket, output, input, token);
-            menuInicial.setVisible(true);
         } else{
             JOptionPane.showMessageDialog(this, respostaJson.get("mensagem"), "Erro", JOptionPane.ERROR_MESSAGE);
             return;

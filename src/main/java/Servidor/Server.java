@@ -252,9 +252,14 @@ public class Server {
 
                     switch (operacao) {
                         case "cadastro" -> {
-                            if (requisicao.has("token")) {
+                            boolean temToken = requisicao.has("token");
+                            String perfil;
+
+                            
+                            if (temToken) {
                                 String token = requisicao.getString("token");
 
+                                // Verifica se o token é válido
                                 if (!usuariosConectados.contains(token)) {
                                     respostaJson.put("status", "erro");
                                     respostaJson.put("operacao", "cadastro");
@@ -262,6 +267,7 @@ public class Server {
                                     break;
                                 }
 
+                                // Verifica se o token pertence a um ADM
                                 JSONObject perfilADM = pegarPerfil(token);
                                 if (perfilADM == null || !perfilADM.optString("perfil").equals("adm")) {
                                     respostaJson.put("status", "erro");
@@ -269,19 +275,41 @@ public class Server {
                                     respostaJson.put("mensagem", "Token de usuário comum");
                                     break;
                                 }
+
+                                // Perfil é fornecido pelo ADM (deve ser "adm" ou "comum")
+                                if (!requisicao.has("perfil")) {
+                                    respostaJson.put("status", "erro");
+                                    respostaJson.put("operacao", "cadastro");
+                                    respostaJson.put("mensagem", "Perfil não especificado");
+                                    break;
+                                }
+
+                                perfil = requisicao.getString("perfil");
+                                if (!perfil.equals("adm") && !perfil.equals("comum")) {
+                                    respostaJson.put("status", "erro");
+                                    respostaJson.put("operacao", "cadastro");
+                                    respostaJson.put("mensagem", "Perfil inválido");
+                                    break;
+                                }
+                            } else {
+                                // Cadastro de usuário comum, perfil deve ser "comum"
+                                perfil = "comum";
+                                requisicao.put("perfil", perfil); // Garante que o campo exista
                             }
 
-                            if (!requisicao.has("nome") || !requisicao.has("usuario") || !requisicao.has("senha") || !requisicao.has("perfil")) {
+                            // Verifica campos obrigatórios
+                            if (!requisicao.has("nome") || !requisicao.has("usuario") || !requisicao.has("senha")) {
                                 respostaJson.put("status", "erro");
                                 respostaJson.put("operacao", "cadastro");
-                                respostaJson.put("mensagem", "Os campos recebidos não são validos");
+                                respostaJson.put("mensagem", "Os campos recebidos não são válidos");
                                 break;
                             }
 
+                            // Validação de conteúdo (nome, usuario, senha, perfil)
                             if (!server.validarCadastro(requisicao)) {
                                 respostaJson.put("status", "erro");
                                 respostaJson.put("operacao", "cadastro");
-                                respostaJson.put("mensagem", "Os campos recebidos não são validos");
+                                respostaJson.put("mensagem", "Os campos recebidos não são válidos");
                                 break;
                             }
 
@@ -294,6 +322,7 @@ public class Server {
                                 break;
                             }
 
+                            // Salva o novo usuário
                             server.salvarUsuario(requisicao);
 
                             respostaJson.put("status", "sucesso");

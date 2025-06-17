@@ -1,26 +1,14 @@
 [
   {
     "senha": "12345",
-    "nome": "joao",
-    "usuario": "joao",
-    "perfil": "comum"
-  },
-  {
-    "senha": "12345",
-    "nome": "maria",
-    "usuario": "lucas",
-    "perfil": "adm"
-  },
-  {
-    "senha": "12345",
     "nome": "admin",
     "usuario": "admin",
     "perfil": "adm"
   },
   {
     "senha": "12345",
-    "nome": "lucas",
-    "usuario": "vidal",
+    "nome": "barbara",
+    "usuario": "barabara",
     "perfil": "comum"
   }
 ]
