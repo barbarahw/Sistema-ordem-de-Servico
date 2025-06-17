@@ -118,7 +118,7 @@ public class TelaConexao extends javax.swing.JFrame {
 
             javax.swing.JOptionPane.showMessageDialog(this, "Conectado com sucesso!", "Sucesso", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
-            MenuInicial novoMenu = new MenuInicial(socket, output, input);
+            TelaInicial novoMenu = new TelaInicial(socket, output, input);
             novoMenu.setVisible(true);
             this.dispose();
 

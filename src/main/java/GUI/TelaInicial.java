@@ -12,7 +12,7 @@ import java.net.Socket;
  *
  * @author bwosi
  */
-public class MenuInicial extends javax.swing.JFrame {
+public class TelaInicial extends javax.swing.JFrame {
 
     private Socket socket;
     private PrintWriter output;
@@ -20,7 +20,7 @@ public class MenuInicial extends javax.swing.JFrame {
     /**
      * Creates new form MenuCliente
      */
-    public MenuInicial(Socket socket, PrintWriter output, BufferedReader input) {
+    public TelaInicial(Socket socket, PrintWriter output, BufferedReader input) {
         initComponents();
         this.socket = socket;
         this.input = input;
@@ -28,7 +28,7 @@ public class MenuInicial extends javax.swing.JFrame {
         
     }
 
-    private MenuInicial() {
+    private TelaInicial() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -82,6 +82,7 @@ public class MenuInicial extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         TelaLogin telaLogin = new TelaLogin(socket, output, input);
         telaLogin.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
@@ -101,21 +102,23 @@ public class MenuInicial extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuInicial().setVisible(true);
+                new TelaInicial().setVisible(true);
             }
         });
     }

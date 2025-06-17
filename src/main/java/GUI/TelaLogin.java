@@ -141,8 +141,18 @@ public class TelaLogin extends javax.swing.JFrame {
         if (respostaJson.getString("status").equals("sucesso")) {
             String token = respostaJson.getString("token");
             JOptionPane.showMessageDialog(this, "Login bem sucedido", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            if (token.equals("comum")){
+                MenuCliente menuInicial = new MenuCliente(socket, output, input, token);
+                menuInicial.setVisible(true);
+                this.setVisible(false);
+            } else if(token.equals("adm")){
+                MenuAdm menuAdm = new MenuAdm(socket, output, input);
+                menuAdm.setVisible(true);
+                this.setVisible(false);
+            }
         } else {
             JOptionPane.showMessageDialog(this, respostaJson.get("mensagem"), "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
