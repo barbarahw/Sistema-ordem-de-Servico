@@ -154,6 +154,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         if (respostaJson.getString("status").equals("sucesso")){
             JOptionPane.showMessageDialog(this, "Login bem sucedido", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             String token = respostaJson.getString("token");
+            String perfil = respostaJson.getString("perfil");
             MenuCliente menuInicial = new MenuCliente(socket, output, input, token);
             menuInicial.setVisible(true);
         } else{

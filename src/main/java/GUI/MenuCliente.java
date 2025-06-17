@@ -5,8 +5,13 @@
 package GUI;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.json.JSONObject;
 
 /**
  *
@@ -17,14 +22,16 @@ public class MenuCliente extends javax.swing.JFrame {
     private Socket socket;
     private PrintWriter output;
     private BufferedReader input;
+    private String token;
     /**
      * Creates new form MenuInicial
      */
-    public MenuCliente(Socket socket, PrintWriter output, BufferedReader input) {
+    public MenuCliente(Socket socket, PrintWriter output, BufferedReader input, String token) {
         initComponents();
         this.socket = socket;
         this.input = input;
         this.output = output;
+        this.token = token;
     }
 
     private MenuCliente() {
@@ -40,25 +47,143 @@ public class MenuCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnLerDados = new javax.swing.JButton();
+        btnEditarConta = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        btnExcluirConta = new javax.swing.JButton();
+        btnCadastrarOrdem = new javax.swing.JButton();
+        btnEditarOrdem = new javax.swing.JButton();
+        btnListarOrdem = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnLerDados.setText("Ler meus dados");
+
+        btnEditarConta.setText("Editar conta");
+
+        btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
+        btnExcluirConta.setText("Excluir conta");
+
+        btnCadastrarOrdem.setText("Cadastrar ordem de serviço");
+
+        btnEditarOrdem.setText("Editar ordens de serviço");
+        btnEditarOrdem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarOrdemActionPerformed(evt);
+            }
+        });
+
+        btnListarOrdem.setText("Listar ordens de serviço");
+        btnListarOrdem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarOrdemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnLerDados)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addComponent(btnCadastrarOrdem)
+                        .addGap(28, 28, 28))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnLogout)
+                            .addComponent(btnEditarConta))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnListarOrdem)
+                        .addGap(50, 50, 50))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnExcluirConta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEditarOrdem)
+                        .addGap(50, 50, 50))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLerDados)
+                    .addComponent(btnCadastrarOrdem))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditarConta)
+                    .addComponent(btnListarOrdem))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExcluirConta)
+                    .addComponent(btnEditarOrdem))
+                .addGap(18, 18, 18)
+                .addComponent(btnLogout)
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnEditarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarOrdemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarOrdemActionPerformed
+
+    private void btnListarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarOrdemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnListarOrdemActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        JSONObject json = new JSONObject();
+        json.put("operacao", "logout");
+        json.put("token", token);
+        
+        enviarJson(json);
+        JSONObject respostaJson = receberJson();
+        
+        if (respostaJson.getString("status").equals("sucesso")){
+            JOptionPane.showMessageDialog(this, "Logout bem sucedido", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            TelaInicial telaInicial = new TelaInicial(socket, output, input);
+            telaInicial.setVisible(true);
+            this.setVisible(false);
+        } else if (respostaJson.getString("status").equals("erro")){
+            JOptionPane.showMessageDialog(this, respostaJson.getString("mensagem"), "erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    private void enviarJson(JSONObject json){
+        output.println(json.toString());
+        System.out.println("Json enviado: " + json.toString());
+    }
+    
+    private JSONObject receberJson(){
+        String resposta;
+        try {
+            resposta = input.readLine();
+            JSONObject respostaJson = new JSONObject(resposta);
+            System.out.println("Json recebido: " + respostaJson.toString());
+            return respostaJson;
+        } catch (IOException ex) {
+            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -95,5 +220,12 @@ public class MenuCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCadastrarOrdem;
+    private javax.swing.JButton btnEditarConta;
+    private javax.swing.JButton btnEditarOrdem;
+    private javax.swing.JButton btnExcluirConta;
+    private javax.swing.JButton btnLerDados;
+    private javax.swing.JButton btnListarOrdem;
+    private javax.swing.JButton btnLogout;
     // End of variables declaration//GEN-END:variables
 }

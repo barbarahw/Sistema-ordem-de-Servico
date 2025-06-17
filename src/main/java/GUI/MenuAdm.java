@@ -17,14 +17,16 @@ public class MenuAdm extends javax.swing.JFrame {
     private Socket socket;
     private PrintWriter output;
     private BufferedReader input;
+    private String token;
     /**
      * Creates new form MenuAdm
      */
-    public MenuAdm(Socket socket, PrintWriter output, BufferedReader input) {
+    public MenuAdm(Socket socket, PrintWriter output, BufferedReader input, String token) {
         initComponents();
         this.socket = socket;
         this.input = input;
         this.output = output;
+        this.token = token;
     }
 
     private MenuAdm() {

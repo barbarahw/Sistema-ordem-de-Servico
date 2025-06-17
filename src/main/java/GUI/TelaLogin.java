@@ -121,6 +121,7 @@ public class TelaLogin extends javax.swing.JFrame {
         
         return null;
     }
+    
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         JSONObject json = new JSONObject();
         
@@ -140,13 +141,14 @@ public class TelaLogin extends javax.swing.JFrame {
         JSONObject respostaJson = receberJson();
         if (respostaJson.getString("status").equals("sucesso")) {
             String token = respostaJson.getString("token");
+            String perfil = respostaJson.getString("perfil");
             JOptionPane.showMessageDialog(this, "Login bem sucedido", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            if (token.equals("comum")){
+            if (perfil.equals("comum")){
                 MenuCliente menuInicial = new MenuCliente(socket, output, input, token);
                 menuInicial.setVisible(true);
                 this.setVisible(false);
-            } else if(token.equals("adm")){
-                MenuAdm menuAdm = new MenuAdm(socket, output, input);
+            } else if(perfil.equals("adm")){
+                MenuAdm menuAdm = new MenuAdm(socket, output, input, token);
                 menuAdm.setVisible(true);
                 this.setVisible(false);
             }
