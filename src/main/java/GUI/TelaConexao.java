@@ -14,16 +14,15 @@ import java.net.Socket;
  *
  * @author bwosi
  */
-public class TelaInicial extends javax.swing.JFrame {
+public class TelaConexao extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaInicial
      */
-    public TelaInicial() {
+    public TelaConexao() {
         initComponents();
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -32,7 +31,7 @@ public class TelaInicial extends javax.swing.JFrame {
         lblIp = new javax.swing.JLabel();
         lblPorta = new javax.swing.JLabel();
         txtPorta = new javax.swing.JTextField();
-        Enviar = new javax.swing.JButton();
+        btnEnviar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,10 +53,10 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
-        Enviar.setText("Enviar");
-        Enviar.addActionListener(new java.awt.event.ActionListener() {
+        btnEnviar.setText("Enviar");
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EnviarActionPerformed(evt);
+                btnEnviarActionPerformed(evt);
             }
         });
 
@@ -68,15 +67,15 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addComponent(Enviar))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(92, 92, 92)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblIp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblPorta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtIp, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(btnEnviar)))
                 .addContainerGap(103, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -90,9 +89,9 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addComponent(lblPorta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(Enviar)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnEnviar)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         txtIp.getAccessibleContext().setAccessibleName("IP");
@@ -109,23 +108,26 @@ public class TelaInicial extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPortaActionPerformed
 
-    private void EnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarActionPerformed
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         String ip = txtIp.getText();
         try {
             int porta = Integer.parseInt(txtPorta.getText());
-            try(
-                Socket socket = new Socket(ip, porta);
-                PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()))){
-                javax.swing.JOptionPane.showMessageDialog(this, "Conectado com sucesso!", "Sucesso", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                
-                //TODO
-            } catch (IOException e ){
-                javax.swing.JOptionPane.showMessageDialog(this, "Não foi possível conectar:" + e.getMessage(), "Erro de ceonexão", javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (NumberFormatException e){
-            javax.swing.JOptionPane.showMessageDialog(this, "Informe uma porta válida", "Erro de ceonexão", javax.swing.JOptionPane.ERROR_MESSAGE);
-    }//GEN-LAST:event_EnviarActionPerformed
+            Socket socket = new Socket(ip, porta);
+            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Conectado com sucesso!", "Sucesso", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            MenuInicial novoMenu = new MenuInicial(socket, output, input);
+            novoMenu.setVisible(true);
+            this.dispose();
+
+        } catch (IOException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Não foi possível conectar: " + e.getMessage(), "Erro de conexão", javax.swing.JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Informe uma porta válida", "Erro de conexão", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEnviarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,26 +146,27 @@ public class TelaInicial extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaConexao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaConexao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaConexao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaConexao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaInicial().setVisible(true);
+                new TelaConexao().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Enviar;
+    private javax.swing.JButton btnEnviar;
     private javax.swing.JLabel lblIp;
     private javax.swing.JLabel lblPorta;
     private javax.swing.JTextField txtIp;
