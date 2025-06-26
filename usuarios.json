@@ -10,5 +10,11 @@
     "nome": "barbara",
     "usuario": "barabara",
     "perfil": "comum"
+  },
+  {
+    "senha": "12345",
+    "nome": "joao",
+    "usuario": "joao",
+    "perfil": "comum"
   }
 ]

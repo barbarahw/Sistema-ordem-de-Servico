@@ -4,6 +4,7 @@
  */
 package Servidor.GUI;
 
+import Controller.RequisicaoController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -125,17 +126,21 @@ public class TelaConexaoServidor extends javax.swing.JFrame {
                                 BufferedReader in = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
                                 PrintWriter out = new PrintWriter(cliente.getOutputStream(), true);
 
+                                RequisicaoController controller = new RequisicaoController(usuariosConectados);
+                                
                                 String jsonRecebido;
                                 while ((jsonRecebido = in.readLine()) != null) {
+                                    
                                     System.out.println("JSON recebido: " + jsonRecebido);
 
                                     JSONObject requisicao = new JSONObject(jsonRecebido);
-                                    JSONObject resposta = new JSONObject();
-
-                                    // processa requisição...
+                                    JSONObject resposta = controller.processar(requisicao);
                                     String jsonResposta = resposta.toString();
+
                                     out.println(jsonResposta);
                                     System.out.println("JSON enviado: " + jsonResposta);
+                                    
+                                    
                                 }
 
                             } catch (Exception e) {
