@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package GUI;
+package Cliente.GUI;
 
+import Cliente.GUI.TelaCadastro;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;

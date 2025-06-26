@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package GUI;
+package Cliente.GUI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -119,7 +119,7 @@ public class TelaCadastro extends javax.swing.JFrame {
 
     private void enviarJson(JSONObject json){
         output.println(json.toString());
-        System.out.println("Json enviado: " + json.toString());
+        System.out.println("JSON enviado: " + json.toString());
     }
     
     private JSONObject receberJson(){
@@ -127,7 +127,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         try {
             resposta = input.readLine();
             JSONObject respostaJson = new JSONObject(resposta);
-            System.out.println("Json recebido: " + respostaJson.toString());
+            System.out.println("JSON recebido: " + respostaJson.toString());
             return respostaJson;
         } catch (IOException ex) {
             Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
