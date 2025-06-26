@@ -17,6 +17,7 @@ Services\UsuarioService.class
 Cliente\GUI\TelaInicial$3.class
 Cliente\GUI\TelaLogin.class
 Services\OrdemServicoService.class
+Cliente\GUI\TelaCadastroOrdem$1.class
 Cliente\GUI\TelaInicial.class
 Cliente\GUI\TelaConexaoCliente$2.class
 Cliente\GUI\MenuCliente$1.class
@@ -26,12 +27,15 @@ Servidor\GUI\TelaConexaoServidor$2.class
 Cliente\Cliente.class
 Cliente\GUI\MenuCliente$2.class
 Cliente\GUI\TelaCadastro$2.class
+Cliente\GUI\TelaCadastroOrdem.class
 Cliente\GUI\MenuAdm.class
 Cliente\GUI\MenuAdm$1.class
 Cliente\GUI\MenuAdm$2.class
+Cliente\GUI\TelaCadastroOrdem$2.class
 Cliente\GUI\TelaInicial$2.class
 Cliente\GUI\TelaConexaoCliente$3.class
 Cliente\GUI\TelaConexaoCliente$1.class
 Servidor\GUI\TelaInicialServidor$1.class
 Servidor\GUI\TelaInicialServidor.class
 Classes\Usuario.class
+Cliente\GUI\MenuCliente$5.class

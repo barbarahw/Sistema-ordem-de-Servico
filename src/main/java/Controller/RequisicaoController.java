@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import Services.OrdemServicoService;
 import Services.UsuarioService;
 import java.util.Set;
 import org.json.JSONObject;
@@ -16,10 +17,12 @@ public class RequisicaoController {
 
     private final Set<String> usuariosConectados;
     private final UsuarioService usuarioService;
+    private final OrdemServicoService ordemService;
 
     public RequisicaoController(Set<String> usuariosConectados) {
         this.usuariosConectados = usuariosConectados;
         this.usuarioService = new UsuarioService(usuariosConectados);
+        this.ordemService = new OrdemServicoService(usuariosConectados);
     }
 
     public JSONObject processar(JSONObject requisicao) {
@@ -36,6 +39,9 @@ public class RequisicaoController {
             case "cadastro":
                 resposta = usuarioService.cadastro(requisicao);
                 break;
+            case "cadastrar_ordem":
+                resposta = ordemService.cadastrarOrdem(requisicao);
+                break;  
             default:
                 resposta = new JSONObject();
                 resposta.put("status", "erro");

@@ -23,6 +23,8 @@ public class MenuCliente extends javax.swing.JFrame {
     private PrintWriter output;
     private BufferedReader input;
     private String token;
+    
+    private TelaCadastroOrdem telaCadastroOrdem;
     /**
      * Creates new form MenuInicial
      */
@@ -71,6 +73,11 @@ public class MenuCliente extends javax.swing.JFrame {
         btnExcluirConta.setText("Excluir conta");
 
         btnCadastrarOrdem.setText("Cadastrar ordem de serviço");
+        btnCadastrarOrdem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarOrdemActionPerformed(evt);
+            }
+        });
 
         btnEditarOrdem.setText("Editar ordens de serviço");
         btnEditarOrdem.addActionListener(new java.awt.event.ActionListener() {
@@ -160,6 +167,12 @@ public class MenuCliente extends javax.swing.JFrame {
             return;
         }
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnCadastrarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarOrdemActionPerformed
+        telaCadastroOrdem = new TelaCadastroOrdem(socket, output, input, token);
+        telaCadastroOrdem.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCadastrarOrdemActionPerformed
 
     /**
      * @param args the command line arguments
