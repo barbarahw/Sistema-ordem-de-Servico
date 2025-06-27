@@ -41,7 +41,11 @@ public class RequisicaoController {
                 break;
             case "cadastrar_ordem":
                 resposta = ordemService.cadastrarOrdem(requisicao);
-                break;  
+                break;
+            case "listar_ordens":
+                resposta = ordemService.listarOrdens(requisicao);
+                break;
+
             default:
                 resposta = new JSONObject();
                 resposta.put("status", "erro");

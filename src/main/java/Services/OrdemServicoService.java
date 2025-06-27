@@ -14,6 +14,8 @@ import org.json.JSONObject;
  *
  * @author bwosi
  */
+
+
 public class OrdemServicoService {
 
     private final Set<String> usuariosConectados;
@@ -71,4 +73,65 @@ public class OrdemServicoService {
 
         return resposta;
     }
+    
+    public JSONObject listarOrdens(JSONObject dados) {
+        JSONObject resposta = new JSONObject();
+        String token = dados.optString("token", "").trim();
+        String filtro = dados.optString("filtro", "").trim();
+
+        if (!usuariosConectados.contains(token)) {
+            resposta.put("status", "erro");
+            resposta.put("operacao", "listar_ordens");
+            resposta.put("mensagem", "Token invalido");
+            return resposta;
+        }
+
+        if (!Files.exists(caminho)) {
+            resposta.put("status", "erro");
+            resposta.put("operacao", "listar_ordens");
+            resposta.put("mensagem", "Nenhuma ordem disponível");
+            return resposta;
+        }
+
+        try {
+            String conteudo = Files.readString(caminho).trim();
+            JSONArray todas = conteudo.isEmpty() ? new JSONArray() : new JSONArray(conteudo);
+            JSONArray ordensFiltradas = new JSONArray();
+
+            for (int i = 0; i < todas.length(); i++) {
+                JSONObject ordem = todas.getJSONObject(i);
+                String autor = ordem.optString("usuario", "");
+                String status = ordem.optString("status", "");
+
+                if (autor.equals(token)) {
+                    if (filtro.equals("todas") || filtro.equals(status)) {
+                        JSONObject o = new JSONObject();
+                        o.put("id", i);  // aqui o ID é o índice no array
+                        o.put("autor", autor);
+                        o.put("descricao", ordem.getString("descricao"));
+                        o.put("status", status);
+                        ordensFiltradas.put(o);
+                    }
+                }
+            }
+
+            if (ordensFiltradas.isEmpty()) {
+                resposta.put("status", "erro");
+                resposta.put("operacao", "listar_ordens");
+                resposta.put("mensagem", "Nenhuma ordem disponível");
+            } else {
+                resposta.put("status", "sucesso");
+                resposta.put("operacao", "listar_ordens");
+                resposta.put("ordens", ordensFiltradas);
+            }
+
+        } catch (Exception e) {
+            resposta.put("status", "erro");
+            resposta.put("operacao", "listar_ordens");
+            resposta.put("mensagem", "Erro ao ler ordens");
+        }
+
+        return resposta;
+    }
+
 }

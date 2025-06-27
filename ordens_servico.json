@@ -1,5 +1,12 @@
-[{
-  "usuario": "joao",
-  "descricao": "nova ordem de serviço",
-  "status": "pendente"
-}]
+[
+  {
+    "usuario": "joao",
+    "descricao": "nova ordem de serviço",
+    "status": "pendente"
+  },
+  {
+    "usuario": "barabara",
+    "descricao": "nova ordem",
+    "status": "pendente"
+  }
+]

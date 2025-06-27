@@ -27,6 +27,7 @@ Servidor\GUI\TelaConexaoServidor$2.class
 Cliente\Cliente.class
 Cliente\GUI\MenuCliente$2.class
 Cliente\GUI\TelaCadastro$2.class
+Cliente\GUI\TelaListarOrdem$3.class
 Cliente\GUI\TelaCadastroOrdem.class
 Cliente\GUI\MenuAdm.class
 Cliente\GUI\MenuAdm$1.class

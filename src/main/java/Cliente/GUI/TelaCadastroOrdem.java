@@ -112,8 +112,8 @@ public class TelaCadastroOrdem extends javax.swing.JFrame {
         
         if (respostaJson.getString("status").equals("sucesso")) {
             JOptionPane.showMessageDialog(this, "Ordem cadastrada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            TelaInicial telaInicial = new TelaInicial(socket, output, input);
-            telaInicial.setVisible(true);
+            MenuCliente menuCliente = new MenuCliente(socket, output, input, token);
+            menuCliente.setVisible(true);
             this.setVisible(false);
         } else if (respostaJson.getString("status").equals("erro")) {
             JOptionPane.showMessageDialog(this, respostaJson.getString("mensagem"), "erro", JOptionPane.ERROR_MESSAGE);
@@ -143,6 +143,7 @@ public class TelaCadastroOrdem extends javax.swing.JFrame {
 
         return null;
     }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

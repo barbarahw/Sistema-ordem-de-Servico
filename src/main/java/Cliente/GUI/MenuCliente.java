@@ -25,6 +25,7 @@ public class MenuCliente extends javax.swing.JFrame {
     private String token;
     
     private TelaCadastroOrdem telaCadastroOrdem;
+    private TelaListarOrdem telaListarOrdem;
     /**
      * Creates new form MenuInicial
      */
@@ -146,7 +147,9 @@ public class MenuCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarOrdemActionPerformed
 
     private void btnListarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarOrdemActionPerformed
-        // TODO add your handling code here:
+         telaListarOrdem = new TelaListarOrdem(socket, output, input, token);
+         telaListarOrdem.setVisible(true);
+         this.setVisible(false);
     }//GEN-LAST:event_btnListarOrdemActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
