@@ -206,7 +206,7 @@ public class Server {
     }
 
     private static boolean validarEdicaoAdmin(JSONObject requisicao, JSONObject perfilADM) {
-        // Verifica se o ADM está tentando mudar seu próprio perfil para comum
+        
         if (requisicao.optString("usuario_alvo", "").equals(perfilADM.optString("usuario", ""))) {
             String novoPerfil = requisicao.optString("novo_perfil", "");
             if (novoPerfil.equals("comum")) {

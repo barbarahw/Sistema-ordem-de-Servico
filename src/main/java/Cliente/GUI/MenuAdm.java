@@ -67,6 +67,11 @@ public class MenuAdm extends javax.swing.JFrame {
         btnListarUsuarios.setText("Listar usuarios");
 
         btnCadastrarOrdem.setText("Cadastrar ordem de serviço");
+        btnCadastrarOrdem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarOrdemActionPerformed(evt);
+            }
+        });
 
         btnListarOrdem.setText("Listar ordens de serviço");
 
@@ -141,6 +146,12 @@ public class MenuAdm extends javax.swing.JFrame {
             return;
         }
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnCadastrarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarOrdemActionPerformed
+        TelaCadastroOrdem telaCadastroOrdem = new TelaCadastroOrdem(socket, output, input, token);
+        telaCadastroOrdem.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCadastrarOrdemActionPerformed
 
     /**
      * @param args the command line arguments

@@ -94,6 +94,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cadastrar ordem de servi&#xe7;o"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCadastrarOrdemActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnListarOrdem">
       <Properties>

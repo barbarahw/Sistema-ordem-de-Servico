@@ -116,16 +116,18 @@ public class OrdemServicoService {
             String conteudo = Files.readString(caminho).trim();
             JSONArray todas = conteudo.isEmpty() ? new JSONArray() : new JSONArray(conteudo);
             JSONArray ordensFiltradas = new JSONArray();
+            
+            boolean isAdmin = verificarAdm(token);
 
             for (int i = 0; i < todas.length(); i++) {
                 JSONObject ordem = todas.getJSONObject(i);
                 String autor = ordem.optString("autor", "");
                 String status = ordem.optString("status", "");
 
-                if (autor.equals(token)) {
+                if (isAdmin || autor.equals(token)) {
                     if (filtro.equals("todas") || filtro.equals(status)) {
                         JSONObject o = new JSONObject();
-                        o.put("id", i+1);
+                        o.put("id", ordem.getInt("id"));
                         o.put("autor", autor);
                         o.put("descricao", ordem.getString("descricao"));
                         o.put("status", status);
@@ -226,5 +228,38 @@ public class OrdemServicoService {
         return resposta;
         
     }
+
+    private boolean verificarAdm(String token) {
+        if (token == null || token.isBlank()) {
+            return false;
+        }
+
+        Path caminho = Path.of("usuarios.json");
+        if (!Files.exists(caminho)) {
+            return false;
+        }
+
+        try {
+            String conteudo = Files.readString(caminho).trim();
+            if (conteudo.isEmpty()) {
+                return false;
+            }
+
+            JSONArray usuarios = new JSONArray(conteudo);
+            for (int i = 0; i < usuarios.length(); i++) {
+                JSONObject usuario = usuarios.getJSONObject(i);
+                if (usuario.getString("usuario").equals(token)) {
+                    String perfil = usuario.optString("perfil", "comum");
+                    return perfil.equalsIgnoreCase("adm");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 
 }

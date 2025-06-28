@@ -6,6 +6,7 @@ Cliente\GUI\MenuCliente$4.class
 Cliente\GUI\TelaInicial$1.class
 Cliente\GUI\TelaCadastro.class
 Cliente\GUI\TelaEditarOrdem$3.class
+Cliente\GUI\MenuAdm$3.class
 Cliente\GUI\TelaCadastroOrdem$1.class
 Cliente\GUI\MenuCliente$1.class
 Cliente\GUI\TelaLogin$2.class
