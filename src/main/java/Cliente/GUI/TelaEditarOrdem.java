@@ -1,8 +1,17 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Cliente.GUI;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.json.JSONObject;
 
 /**
  *
@@ -13,8 +22,26 @@ public class TelaEditarOrdem extends javax.swing.JFrame {
     /**
      * Creates new form TelaEditarOrdem
      */
-    public TelaEditarOrdem() {
+    
+    private Socket socket;
+    private PrintWriter output;
+    private BufferedReader input;
+    private String token;
+    
+    
+    public TelaEditarOrdem(Socket socket, PrintWriter output, BufferedReader input, String token) {
         initComponents();
+        this.socket = socket;
+        this.input = input;
+        this.output = output;
+        this.token = token;
+        
+        carregarOrdensDoUsuario();
+
+    }
+
+    private TelaEditarOrdem() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -26,25 +53,168 @@ public class TelaEditarOrdem extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        ComboBoxId = new javax.swing.JComboBox<>();
+        lblDesc = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDesc = new javax.swing.JTextArea();
+        btnEditar = new javax.swing.JButton();
+        btnVoltar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        ComboBoxId.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblDesc.setText("Nova descrição: ");
+
+        txtDesc.setColumns(20);
+        txtDesc.setRows(5);
+        jScrollPane1.setViewportView(txtDesc);
+
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
+        btnVoltar.setText("Voltar ao Menu");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(ComboBoxId, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditar))
+                .addContainerGap(132, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnVoltar)
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(ComboBoxId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDesc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnVoltar)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        String idSelecionado = (String) ComboBoxId.getSelectedItem();
+        
+        if (idSelecionado == null || idSelecionado.equals("Nenhuma ordem sua"))
+            return;
+        
+        String novaDescricao = txtDesc.getText().trim();
+        
+        JSONObject json = new JSONObject();
+        json.put("operacao", "editar_ordem");
+        json.put("id_ordem", Integer.parseInt(idSelecionado));
+        json.put("nova_descricao", novaDescricao);
+        json.put("token", token);
+        
+        enviarJson(json);
+        JSONObject respostaJson = receberJson();
+        
+        if (respostaJson != null && respostaJson.getString("status").equals("sucesso")){
+            JOptionPane.showMessageDialog(this, respostaJson.getString("mensagem"), "sucesso", JOptionPane.INFORMATION_MESSAGE);
+            
+            
+        } else if(respostaJson != null){
+            JOptionPane.showMessageDialog(this, respostaJson.getString("mensagem"), "erro", JOptionPane.ERROR_MESSAGE);
+        }  
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        MenuCliente menuCliente = new MenuCliente(socket, output, input, token);
+        menuCliente.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnVoltarActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    private void enviarJson(JSONObject json) {
+        output.println(json.toString());
+        System.out.println("JSON enviado: " + json.toString());
+    }
+
+    private JSONObject receberJson() {
+        String resposta;
+        try {
+            resposta = input.readLine();
+            JSONObject respostaJson = new JSONObject(resposta);
+            System.out.println("JSON recebido: " + respostaJson.toString());
+            return respostaJson;
+        } catch (IOException ex) {
+            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+    
+    private void carregarOrdensDoUsuario() {
+        try {
+            JSONObject requisicao = new JSONObject();
+            requisicao.put("operacao", "listar_ordens");
+            requisicao.put("filtro", "todas");
+            requisicao.put("token", token);
+            enviarJson(requisicao);
+
+            JSONObject resposta = receberJson();
+            if (resposta == null) {
+                return;
+            }
+
+            if (resposta.getString("status").equals("sucesso")) {
+                var ordens = resposta.getJSONArray("ordens");
+
+                ComboBoxId.removeAllItems();
+
+                for (int i = 0; i < ordens.length(); i++) {
+                    JSONObject ordem = ordens.getJSONObject(i);
+                    if (ordem.getString("autor").equals(token)) {
+                        int id = ordem.getInt("id");
+                        ComboBoxId.addItem(String.valueOf(id));
+                    }
+                }
+
+                if (ComboBoxId.getItemCount() == 0) {
+                    ComboBoxId.addItem("Nenhuma ordem sua");
+                }
+
+            } else {
+                System.out.println("Erro ao listar ordens: " + resposta.getString("mensagem"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -78,5 +248,11 @@ public class TelaEditarOrdem extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> ComboBoxId;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnVoltar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDesc;
+    private javax.swing.JTextArea txtDesc;
     // End of variables declaration//GEN-END:variables
 }

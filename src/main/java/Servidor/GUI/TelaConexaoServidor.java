@@ -51,8 +51,6 @@ public class TelaConexaoServidor extends javax.swing.JFrame {
 
         lblPorta.setText("Informe a porta que o servidor deve usar:");
 
-        txtPorta.setText("Porta");
-
         btnIniciar.setText("Iniciar");
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

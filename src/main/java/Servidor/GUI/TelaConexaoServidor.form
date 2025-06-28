@@ -62,9 +62,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPorta">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Porta"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnIniciar">
       <Properties>

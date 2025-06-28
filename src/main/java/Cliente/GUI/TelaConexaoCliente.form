@@ -63,9 +63,6 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="txtIp">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Digite o IP aqui"/>
-      </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="IP"/>
       </AccessibilityProperties>
@@ -87,9 +84,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPorta">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Digite a porta aqui"/>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPortaActionPerformed"/>
       </Events>

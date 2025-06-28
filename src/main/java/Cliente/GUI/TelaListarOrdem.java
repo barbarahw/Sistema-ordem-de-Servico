@@ -140,6 +140,7 @@ public class TelaListarOrdem extends javax.swing.JFrame {
 
         return null;
     }
+    
     private void atualizarLista(){
         String filtro = (String) jComboBox1.getSelectedItem();
         if (filtro == null) 

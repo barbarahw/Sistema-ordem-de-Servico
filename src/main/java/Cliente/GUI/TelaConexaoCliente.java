@@ -35,7 +35,6 @@ public class TelaConexaoCliente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtIp.setText("Digite o IP aqui");
         txtIp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIpActionPerformed(evt);
@@ -46,7 +45,6 @@ public class TelaConexaoCliente extends javax.swing.JFrame {
 
         lblPorta.setText("Qual a porta do servidor?");
 
-        txtPorta.setText("Digite a porta aqui");
         txtPorta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPortaActionPerformed(evt);

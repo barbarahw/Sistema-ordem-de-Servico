@@ -45,6 +45,10 @@ public class RequisicaoController {
             case "listar_ordens":
                 resposta = ordemService.listarOrdens(requisicao);
                 break;
+            case "editar_ordem":
+                resposta = ordemService.editarOrdem(requisicao);
+                break;
+             
 
             default:
                 resposta = new JSONObject();

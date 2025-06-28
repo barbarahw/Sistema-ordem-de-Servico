@@ -26,6 +26,7 @@ public class MenuCliente extends javax.swing.JFrame {
     
     private TelaCadastroOrdem telaCadastroOrdem;
     private TelaListarOrdem telaListarOrdem;
+    private TelaEditarOrdem telaEditarOrdem;
     /**
      * Creates new form MenuInicial
      */
@@ -117,7 +118,7 @@ public class MenuCliente extends javax.swing.JFrame {
                         .addComponent(btnExcluirConta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEditarOrdem)
-                        .addGap(50, 50, 50))))
+                        .addGap(47, 47, 47))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,7 +144,9 @@ public class MenuCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarOrdemActionPerformed
-        // TODO add your handling code here:
+        telaEditarOrdem = new TelaEditarOrdem(socket, output, input, token);
+        telaEditarOrdem.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnEditarOrdemActionPerformed
 
     private void btnListarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarOrdemActionPerformed

@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -23,6 +24,21 @@ public class OrdemServicoService {
 
     public OrdemServicoService(Set<String> usuariosConectados) {
         this.usuariosConectados = usuariosConectados;
+    }
+    
+    private int gerarNovoId(JSONArray ordens) throws JSONException {
+        if (ordens == null || ordens.length() == 0) {
+            return 1; // Return 1 if array is empty or null (first ID)
+        }
+
+        int maiorId = 0;
+        for (int i = 0; i < ordens.length(); i++) {
+            JSONObject ordem = ordens.getJSONObject(i);
+            if (ordem != null && ordem.has("id")) {
+                maiorId = Math.max(maiorId, ordem.getInt("id"));
+            }
+        }
+        return maiorId + 1; // Return next available ID
     }
 
     public JSONObject cadastrarOrdem(JSONObject dados) {
@@ -43,12 +59,7 @@ public class OrdemServicoService {
             resposta.put("operacao", "cadastrar_ordem");
             resposta.put("mensagem", "Descrição inválida");
             return resposta;
-        }
-
-        JSONObject novaOrdem = new JSONObject();
-        novaOrdem.put("usuario", token);
-        novaOrdem.put("descricao", descricao);
-        novaOrdem.put("status", "pendente");
+        }        
 
         try {
             JSONArray ordens;
@@ -58,6 +69,14 @@ public class OrdemServicoService {
             } else {
                 ordens = new JSONArray();
             }
+            
+            int id = gerarNovoId(ordens);
+            
+            JSONObject novaOrdem = new JSONObject();
+            novaOrdem.put("id", id);
+            novaOrdem.put("autor", token);
+            novaOrdem.put("descricao", descricao);
+            novaOrdem.put("status", "pendente");
 
             ordens.put(novaOrdem);
             Files.writeString(caminho, ordens.toString(2));
@@ -100,13 +119,13 @@ public class OrdemServicoService {
 
             for (int i = 0; i < todas.length(); i++) {
                 JSONObject ordem = todas.getJSONObject(i);
-                String autor = ordem.optString("usuario", "");
+                String autor = ordem.optString("autor", "");
                 String status = ordem.optString("status", "");
 
                 if (autor.equals(token)) {
                     if (filtro.equals("todas") || filtro.equals(status)) {
                         JSONObject o = new JSONObject();
-                        o.put("id", i);  // aqui o ID é o índice no array
+                        o.put("id", i+1);
                         o.put("autor", autor);
                         o.put("descricao", ordem.getString("descricao"));
                         o.put("status", status);
@@ -132,6 +151,80 @@ public class OrdemServicoService {
         }
 
         return resposta;
+    }
+    
+    public JSONObject editarOrdem(JSONObject dados){
+        
+        int id = dados.getInt("id_ordem");
+        String novaDescricao = dados.getString("nova_descricao");
+        String token = dados.getString("token");
+        
+        JSONObject resposta = new JSONObject();
+        resposta.put("operacao", "editar_ordem");
+        
+        if (token == null || !usuariosConectados.contains(token)) {
+            resposta.put("status", "erro");
+            resposta.put("mensagem", "Token invalido");
+            return resposta;
+        }
+        
+        if (novaDescricao == null || novaDescricao.length() < 3 || novaDescricao.length() > 150) {
+            resposta.put("status", "erro");
+            resposta.put("mensagem", "Descrição inválida");
+            return resposta;
+        }
+
+        try {
+            Path path = Path.of("ordens_servico.json");
+            if (!Files.exists(path)) {
+                resposta.put("status", "erro");
+                resposta.put("mensagem", "Ordem não encontrada");
+                return resposta;
+            }
+
+            String conteudo = Files.readString(path);
+            JSONArray ordens = new JSONArray(conteudo);
+
+            for (int i = 0; i < ordens.length(); i++) {
+                JSONObject ordem = ordens.getJSONObject(i);
+                if (ordem.getInt("id") == id) {
+
+                    // Só o autor pode editar
+                    if (!ordem.getString("autor").equals(token)) {
+                        resposta.put("status", "erro");
+                        resposta.put("mensagem", "Permissão negada");
+                        return resposta;
+                    }
+
+                    String status = ordem.getString("status");
+                    if (status.equals("finalizada") || status.equals("cancelada")) {
+                        resposta.put("status", "erro");
+                        resposta.put("mensagem", "Ordem já finalizada");
+                        return resposta;
+                    }
+
+                    ordem.put("descricao", novaDescricao);
+
+                    // Salva de volta
+                    Files.writeString(path, ordens.toString(2));
+
+                    resposta.put("status", "sucesso");
+                    resposta.put("mensagem", "Ordem editada com sucesso");
+                    return resposta;
+                }
+            }
+            
+            resposta.put("status", "erro");
+            resposta.put("mensagem", "Ordem não encontrada");
+
+        } catch (Exception e) {
+            resposta.put("status", "erro");
+            resposta.put("mensagem", "Erro ao editar ordem");
+            e.printStackTrace();
+        }
+        
+        return resposta;
+        
     }
 
 }
