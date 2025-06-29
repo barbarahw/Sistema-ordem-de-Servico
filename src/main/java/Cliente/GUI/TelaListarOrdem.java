@@ -28,16 +28,18 @@ public class TelaListarOrdem extends javax.swing.JFrame {
     private PrintWriter output;
     private BufferedReader input;
     private String token;
+    private String perfil;
     
     /**
      * Creates new form TelaListarOrdem
      */
-    public TelaListarOrdem(Socket socket, PrintWriter output, BufferedReader input, String token) {
+    public TelaListarOrdem(Socket socket, PrintWriter output, BufferedReader input, String token, String perfil) {
         initComponents();
         this.socket = socket;
         this.input = input;
         this.output = output;
         this.token = token;
+        this.perfil = perfil;
         
         String[] opcoes = {"pendente", "cancelada", "finalizada", "todas"};
         jComboBox1.setModel(new DefaultComboBoxModel<>(opcoes));
@@ -63,7 +65,7 @@ public class TelaListarOrdem extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listaOrdem = new javax.swing.JList<>();
         jComboBox1 = new javax.swing.JComboBox<>();
-        btnMenu = new javax.swing.JButton();
+        btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,10 +78,10 @@ public class TelaListarOrdem extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btnMenu.setText("Voltar ao Menu");
-        btnMenu.addActionListener(new java.awt.event.ActionListener() {
+        btnVoltar.setText("Voltar ao Menu");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenuActionPerformed(evt);
+                btnVoltarActionPerformed(evt);
             }
         });
 
@@ -89,7 +91,7 @@ public class TelaListarOrdem extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnMenu)
+                .addComponent(btnVoltar)
                 .addGap(34, 34, 34))
             .addGroup(layout.createSequentialGroup()
                 .addGap(58, 58, 58)
@@ -106,18 +108,26 @@ public class TelaListarOrdem extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnMenu)
+                .addComponent(btnVoltar)
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
-        MenuCliente menuCliente = new MenuCliente(socket, output, input, token);
-        menuCliente.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnMenuActionPerformed
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        
+        if ("comum".equals(perfil)){
+            MenuComum menuComum = new MenuComum(socket, output, input, token, perfil);
+            menuComum.setVisible(true);
+            this.setVisible(false);
+        } else {
+            MenuAdm menuAdm = new MenuAdm(socket, output, input, token, perfil);
+            menuAdm.setVisible(true);
+            this.setVisible(false);
+        }
+        
+    }//GEN-LAST:event_btnVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,7 +223,7 @@ public class TelaListarOrdem extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMenu;
+    private javax.swing.JButton btnVoltar;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> listaOrdem;

@@ -17,12 +17,13 @@ import org.json.JSONObject;
  *
  * @author bwosi
  */
-public class MenuCliente extends javax.swing.JFrame {
+public class MenuComum extends javax.swing.JFrame {
 
     private Socket socket;
     private PrintWriter output;
     private BufferedReader input;
     private String token;
+    private String perfil;
     
     private TelaCadastroOrdem telaCadastroOrdem;
     private TelaListarOrdem telaListarOrdem;
@@ -30,15 +31,16 @@ public class MenuCliente extends javax.swing.JFrame {
     /**
      * Creates new form MenuInicial
      */
-    public MenuCliente(Socket socket, PrintWriter output, BufferedReader input, String token) {
+    public MenuComum(Socket socket, PrintWriter output, BufferedReader input, String token, String perfil) {
         initComponents();
         this.socket = socket;
         this.input = input;
         this.output = output;
         this.token = token;
+        this.perfil = perfil;
     }
 
-    private MenuCliente() {
+    private MenuComum() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -144,13 +146,13 @@ public class MenuCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarOrdemActionPerformed
-        telaEditarOrdem = new TelaEditarOrdem(socket, output, input, token);
+        telaEditarOrdem = new TelaEditarOrdem(socket, output, input, token, perfil);
         telaEditarOrdem.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnEditarOrdemActionPerformed
 
     private void btnListarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarOrdemActionPerformed
-         telaListarOrdem = new TelaListarOrdem(socket, output, input, token);
+         telaListarOrdem = new TelaListarOrdem(socket, output, input, token, perfil);
          telaListarOrdem.setVisible(true);
          this.setVisible(false);
     }//GEN-LAST:event_btnListarOrdemActionPerformed
@@ -175,7 +177,7 @@ public class MenuCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnCadastrarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarOrdemActionPerformed
-        telaCadastroOrdem = new TelaCadastroOrdem(socket, output, input, token);
+        telaCadastroOrdem = new TelaCadastroOrdem(socket, output, input, token, perfil);
         telaCadastroOrdem.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCadastrarOrdemActionPerformed
@@ -217,14 +219,18 @@ public class MenuCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuComum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuComum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuComum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuComum.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -233,7 +239,7 @@ public class MenuCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuCliente().setVisible(true);
+                new MenuComum().setVisible(true);
             }
         });
     }

@@ -23,16 +23,18 @@ public class TelaCadastroOrdem extends javax.swing.JFrame {
     private PrintWriter output;
     private BufferedReader input;
     private String token;
+    private String perfil;
     
     /**
      * Creates new form TelaCadastroOrdem
      */
-    public TelaCadastroOrdem(Socket socket, PrintWriter output, BufferedReader input, String token) {
+    public TelaCadastroOrdem(Socket socket, PrintWriter output, BufferedReader input, String token, String perfil) {
         initComponents();
         this.socket = socket;
         this.input = input;
         this.output = output;
         this.token = token;
+        this.perfil = perfil;
     }
 
     private TelaCadastroOrdem() {
@@ -112,9 +114,18 @@ public class TelaCadastroOrdem extends javax.swing.JFrame {
         
         if (respostaJson.getString("status").equals("sucesso")) {
             JOptionPane.showMessageDialog(this, "Ordem cadastrada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            MenuCliente menuCliente = new MenuCliente(socket, output, input, token);
-            menuCliente.setVisible(true);
-            this.setVisible(false);
+            
+            if ("comum".equals(perfil)) {
+                MenuComum menuComum = new MenuComum(socket, output, input, token, perfil);
+                menuComum.setVisible(true);
+                this.setVisible(false);
+            } else {
+                MenuAdm menuAdm = new MenuAdm(socket, output, input, token, perfil);
+                menuAdm.setVisible(true);
+                this.setVisible(false);
+            }
+            
+            
         } else if (respostaJson.getString("status").equals("erro")) {
             JOptionPane.showMessageDialog(this, respostaJson.getString("mensagem"), "erro", JOptionPane.ERROR_MESSAGE);
             return;

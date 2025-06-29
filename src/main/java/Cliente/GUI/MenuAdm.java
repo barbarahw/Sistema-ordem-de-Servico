@@ -23,15 +23,18 @@ public class MenuAdm extends javax.swing.JFrame {
     private PrintWriter output;
     private BufferedReader input;
     private String token;
+    private String perfil;
+    
     /**
      * Creates new form MenuAdm
      */
-    public MenuAdm(Socket socket, PrintWriter output, BufferedReader input, String token) {
+    public MenuAdm(Socket socket, PrintWriter output, BufferedReader input, String token, String perfil) {
         initComponents();
         this.socket = socket;
         this.input = input;
         this.output = output;
         this.token = token;
+        this.perfil = perfil;
     }
 
     private MenuAdm() {
@@ -53,7 +56,7 @@ public class MenuAdm extends javax.swing.JFrame {
         btnListarUsuarios = new javax.swing.JButton();
         btnCadastrarOrdem = new javax.swing.JButton();
         btnListarOrdem = new javax.swing.JButton();
-        btnDesativarOrdem = new javax.swing.JButton();
+        btnAlterarOrdem = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -74,8 +77,18 @@ public class MenuAdm extends javax.swing.JFrame {
         });
 
         btnListarOrdem.setText("Listar ordens de serviço");
+        btnListarOrdem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarOrdemActionPerformed(evt);
+            }
+        });
 
-        btnDesativarOrdem.setText("Desativar ordem de serviço");
+        btnAlterarOrdem.setText("Alterar Ordem de Serviço");
+        btnAlterarOrdem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarOrdemActionPerformed(evt);
+            }
+        });
 
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -100,7 +113,7 @@ public class MenuAdm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCadastrarOrdem)
                     .addComponent(btnListarOrdem)
-                    .addComponent(btnDesativarOrdem))
+                    .addComponent(btnAlterarOrdem))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -119,7 +132,7 @@ public class MenuAdm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnListarUsuarios)
-                    .addComponent(btnDesativarOrdem))
+                    .addComponent(btnAlterarOrdem))
                 .addGap(18, 18, 18)
                 .addComponent(btnLogout)
                 .addContainerGap(37, Short.MAX_VALUE))
@@ -148,10 +161,22 @@ public class MenuAdm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnCadastrarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarOrdemActionPerformed
-        TelaCadastroOrdem telaCadastroOrdem = new TelaCadastroOrdem(socket, output, input, token);
+        TelaCadastroOrdem telaCadastroOrdem = new TelaCadastroOrdem(socket, output, input, token, perfil);
         telaCadastroOrdem.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCadastrarOrdemActionPerformed
+
+    private void btnListarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarOrdemActionPerformed
+        TelaListarOrdem telaListarOrdem = new TelaListarOrdem(socket, output, input, token, perfil);
+        telaListarOrdem.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnListarOrdemActionPerformed
+
+    private void btnAlterarOrdemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarOrdemActionPerformed
+        telaAlterarOrdem telAlterarOrdem = new telaAlterarOrdem(socket, output, input, token, perfil);
+        telAlterarOrdem.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnAlterarOrdemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,9 +234,9 @@ public class MenuAdm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterarOrdem;
     private javax.swing.JButton btnCadastrarNovoUsuario;
     private javax.swing.JButton btnCadastrarOrdem;
-    private javax.swing.JButton btnDesativarOrdem;
     private javax.swing.JButton btnEditarUsuario;
     private javax.swing.JButton btnExcluirUsuario;
     private javax.swing.JButton btnListarOrdem;

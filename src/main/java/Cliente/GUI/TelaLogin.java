@@ -4,7 +4,7 @@
  */
 package Cliente.GUI;
 
-import Cliente.GUI.MenuCliente;
+import Cliente.GUI.MenuComum;
 import Cliente.GUI.MenuAdm;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -141,16 +141,17 @@ public class TelaLogin extends javax.swing.JFrame {
         
         enviarJson(json);
         JSONObject respostaJson = receberJson();
+        
         if (respostaJson.getString("status").equals("sucesso")) {
             String token = respostaJson.getString("token");
             String perfil = respostaJson.getString("perfil");
             JOptionPane.showMessageDialog(this, "Login bem sucedido", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             if (perfil.equals("comum")){
-                MenuCliente menuInicial = new MenuCliente(socket, output, input, token);
+                MenuComum menuInicial = new MenuComum(socket, output, input, token, perfil);
                 menuInicial.setVisible(true);
                 this.setVisible(false);
             } else if(perfil.equals("adm")){
-                MenuAdm menuAdm = new MenuAdm(socket, output, input, token);
+                MenuAdm menuAdm = new MenuAdm(socket, output, input, token, perfil);
                 menuAdm.setVisible(true);
                 this.setVisible(false);
             }

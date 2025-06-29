@@ -108,6 +108,7 @@ public class TelaConexaoServidor extends javax.swing.JFrame {
             
             telaInicialServidor = new TelaInicialServidor();
             telaInicialServidor.setVisible(true);
+            //this.setVisible(false);
             
             new Thread(() -> {
                 while (true) {

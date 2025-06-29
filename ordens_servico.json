@@ -22,5 +22,23 @@
     "autor": "admin",
     "descricao": "ordem teste do adm",
     "status": "pendente"
+  },
+  {
+    "id": 5,
+    "autor": "admin",
+    "descricao": "teste2",
+    "status": "finalizada"
+  },
+  {
+    "id": 6,
+    "autor": "admin",
+    "descricao": "teste novo",
+    "status": "cancelada"
+  },
+  {
+    "id": 7,
+    "autor": "admin",
+    "descricao": "ahbcaugcivybasfdty",
+    "status": "cancelada"
   }
 ]
